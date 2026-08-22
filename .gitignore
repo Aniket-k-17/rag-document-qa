@@ -1,0 +1,27 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Vector store
+vectorstore/
+
+# Data
+# Allow assignment PDFs to be committed
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.log
+INTERVIEW_NOTES.md
