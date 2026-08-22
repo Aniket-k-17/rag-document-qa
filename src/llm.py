@@ -1,9 +1,11 @@
 import logging
+import functools
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.config import GEMINI_API_KEY, GEMINI_MODEL
 
 logger = logging.getLogger(__name__)
 
+@functools.lru_cache(maxsize=1)
 def get_llm():
     """
     Initializes and returns the Google Gemini LLM instance using the modern 
@@ -15,8 +17,8 @@ def get_llm():
         
     try:
         # ChatGoogleGenerativeAI is the modern standard for Gemini integration.
-        # We set temperature=0 to ensure the model is highly deterministic 
-        # and factual, which is critical for preventing RAG hallucinations.
+        # Temperature 0 is used for more consistent responses. 
+        # Grounding is handled by restricting generation to retrieved document context.
         llm = ChatGoogleGenerativeAI(
             model=GEMINI_MODEL,
             google_api_key=GEMINI_API_KEY,

@@ -1,9 +1,11 @@
 import logging
+import functools
 from langchain_huggingface import HuggingFaceEmbeddings
 from src.config import EMBEDDING_MODEL_NAME
 
 logger = logging.getLogger(__name__)
 
+@functools.lru_cache(maxsize=1)
 def get_embedding_model():
     """
     Returns the embedding model used for vectorizing text.

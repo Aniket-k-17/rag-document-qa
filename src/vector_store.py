@@ -1,5 +1,6 @@
 import os
 import logging
+import functools
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 from src.config import VECTOR_STORE_DIR
@@ -7,6 +8,7 @@ from src.embeddings import get_embedding_model
 
 logger = logging.getLogger(__name__)
 
+@functools.lru_cache(maxsize=1)
 def get_vector_store():
     """
     Loads the existing FAISS vector store from disk.

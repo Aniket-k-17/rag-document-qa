@@ -24,7 +24,7 @@ CHUNK_SIZE = 700
 CHUNK_OVERLAP = 100
 
 # Retrieval Configuration
-TOP_K = 4
+TOP_K = 3
 
 # Embedding Model
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"

@@ -9,7 +9,8 @@ Large Language Models (LLMs) are powerful but prone to hallucination, and they l
 ## 3. Architecture
 The system follows a standard offline-ingestion and online-retrieval RAG pipeline:
 1. **Ingestion**: Read PDFs $\rightarrow$ Extract Text $\rightarrow$ Chunk Text $\rightarrow$ Generate Embeddings $\rightarrow$ Save to FAISS.
-2. **Retrieval**: User Question $\rightarrow$ Question Embedding $\rightarrow$ FAISS Similarity Search $\rightarrow$ Top K Chunks.
+2. **Retrieval**: User Question $\rightarrow$ Question Embedding $\rightarrow$ FAISS Similarity Search $\rightarrow$ Top K Chunks. 
+   *(Note: `top_k=3` is used as a practical balance between retrieving enough context for accurate answers, reducing irrelevant context that might confuse the model, and limiting prompt size/latency.)*
 3. **Generation**: Top K Chunks + Strict Prompt $\rightarrow$ Gemini LLM $\rightarrow$ Grounded Answer + Source Attribution.
 
 ## 4. Project Structure
