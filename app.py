@@ -6,7 +6,7 @@ st.set_page_config(page_title="RAG Document Q&A", page_icon="📚", layout="wide
 
 from src.rag_pipeline import answer_question
 from src.vector_store import get_vector_store
-from src.config import GEMINI_MODEL, EMBEDDING_MODEL_NAME
+from src.config import GROQ_MODEL, EMBEDDING_MODEL_NAME
 
 def main():
     st.title("RAG Document Q&A")
@@ -15,7 +15,7 @@ def main():
     # --- SIDEBAR ---
     with st.sidebar:
         st.header("System")
-        st.markdown(f"- **LLM:** {GEMINI_MODEL}")
+        st.markdown(f"- **LLM:** {GROQ_MODEL}")
         st.markdown(f"- **Embeddings:** {EMBEDDING_MODEL_NAME}")
         st.markdown("- **Vector Store:** FAISS")
         
@@ -96,7 +96,7 @@ def main():
             except Exception as e:
                 error_msg = str(e)
                 if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
-                    st.error("Gemini API quota has been reached. Please wait a moment and try again.")
+                    st.error("The language model service is temporarily unavailable. Please try again shortly.")
                 else:
                     st.error(f"An unexpected error occurred: {e}")
 

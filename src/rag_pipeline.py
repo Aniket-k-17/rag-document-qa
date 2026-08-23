@@ -16,7 +16,7 @@ def answer_question(question: str) -> dict:
     1. Retrieve relevant chunks.
     2. Filter out chunks that aren't relevant enough (hallucination prevention).
     3. Construct the prompt.
-    4. Generate the answer with Gemini.
+    4. Generate the answer with Groq.
     5. Return the answer and the exact sources used.
     """
     logger.info(f"Processing question: {question}")
@@ -56,14 +56,14 @@ def answer_question(question: str) -> dict:
         
     context_text = "\n\n---\n\n".join(context_parts)
     
-    # 4. Generate Answer using Gemini
+    # 4. Generate Answer using Groq
     llm = get_llm()
     prompt_template = get_rag_prompt()
     
     # Format the prompt
     prompt = prompt_template.format(context=context_text, question=question)
     
-    logger.info("Sending context and prompt to Gemini...")
+    logger.info("Sending context and prompt to Groq...")
     response = llm.invoke(prompt)
     
     # 5. Return structured result

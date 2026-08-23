@@ -5,10 +5,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.llm import get_llm
-from src.config import GEMINI_MODEL
+from src.config import GROQ_MODEL
 
-def test_gemini_integration():
-    print(f"Testing Google Gemini LLM Integration (Model: {GEMINI_MODEL})...")
+def test_groq_integration():
+    print(f"Testing Groq LLM Integration (Model: {GROQ_MODEL})...")
     
     try:
         # 1. Load the model
@@ -16,20 +16,20 @@ def test_gemini_integration():
         
         # 2. Ask a simple non-RAG question just to verify the API works
         question = "What is 2 + 2? Please answer in one word."
-        print(f"\nSending test prompt to Gemini: '{question}'")
+        print(f"\nSending test prompt to Groq: '{question}'")
         
         # invoke() is the modern LangChain standard for chatting
         response = llm.invoke(question)
         
-        print(f"\nSuccess! Gemini responded: {response.content.strip()}")
+        print(f"\nSuccess! Groq responded: {response.content.strip()}")
         print("Your API key is valid and the LLM wrapper is working perfectly.")
         
     except ValueError as ve:
         print(f"\nConfiguration Error: {ve}")
-        print("Please open your .env file and paste a valid Google Gemini API key.")
+        print("Please open your .env file and paste a valid Groq API key.")
     except Exception as e:
         print(f"\nAPI Connection Error: {e}")
         print("Make sure your API key is correct and you have an internet connection.")
 
 if __name__ == "__main__":
-    test_gemini_integration()
+    test_groq_integration()

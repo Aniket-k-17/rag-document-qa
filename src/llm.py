@@ -1,31 +1,31 @@
 import logging
 import functools
-from langchain_google_genai import ChatGoogleGenerativeAI
-from src.config import GEMINI_API_KEY, GEMINI_MODEL
+from langchain_groq import ChatGroq
+from src.config import GROQ_API_KEY, GROQ_MODEL
 
 logger = logging.getLogger(__name__)
 
 @functools.lru_cache(maxsize=1)
 def get_llm():
     """
-    Initializes and returns the Google Gemini LLM instance using the modern 
-    langchain-google-genai package.
+    Initializes and returns the Groq LLM instance using the modern 
+    langchain-groq package.
     """
-    if not GEMINI_API_KEY or GEMINI_API_KEY == "your_gemini_api_key_here":
-        logger.error("GEMINI_API_KEY is not set or is invalid in the environment variables.")
-        raise ValueError("GEMINI_API_KEY must be configured in your .env file to use the LLM.")
+    if not GROQ_API_KEY or GROQ_API_KEY == "your_groq_api_key_here":
+        logger.error("GROQ_API_KEY is not set or is invalid in the environment variables.")
+        raise ValueError("GROQ_API_KEY must be configured in your .env file to use the LLM.")
         
     try:
-        # ChatGoogleGenerativeAI is the modern standard for Gemini integration.
+        # ChatGroq is the modern standard for Groq integration.
         # Temperature 0 is used for more consistent responses. 
         # Grounding is handled by restricting generation to retrieved document context.
-        llm = ChatGoogleGenerativeAI(
-            model=GEMINI_MODEL,
-            google_api_key=GEMINI_API_KEY,
+        llm = ChatGroq(
+            model=GROQ_MODEL,
+            api_key=GROQ_API_KEY,
             temperature=0,
             max_retries=2
         )
         return llm
     except Exception as e:
-        logger.error(f"Failed to initialize Gemini LLM: {e}")
+        logger.error(f"Failed to initialize Groq LLM: {e}")
         raise

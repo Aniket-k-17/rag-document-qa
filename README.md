@@ -11,7 +11,7 @@ The system follows a standard offline-ingestion and online-retrieval RAG pipelin
 1. **Ingestion**: Read PDFs $\rightarrow$ Extract Text $\rightarrow$ Chunk Text $\rightarrow$ Generate Embeddings $\rightarrow$ Save to FAISS.
 2. **Retrieval**: User Question $\rightarrow$ Question Embedding $\rightarrow$ FAISS Similarity Search $\rightarrow$ Top K Chunks. 
    *(Note: `top_k=3` is used as a practical balance between retrieving enough context for accurate answers, reducing irrelevant context that might confuse the model, and limiting prompt size/latency.)*
-3. **Generation**: Top K Chunks + Strict Prompt $\rightarrow$ Gemini LLM $\rightarrow$ Grounded Answer + Source Attribution.
+3. **Generation**: Top K Chunks + Strict Prompt $\rightarrow$ Groq LLM $\rightarrow$ Grounded Answer + Source Attribution.
 
 ## 4. Project Structure
 ```text
@@ -27,7 +27,7 @@ rag-document-qa/
 │   ├── embeddings.py          # HuggingFace local embeddings
 │   ├── vector_store.py        # FAISS database logic
 │   ├── retriever.py           # Semantic search logic
-│   ├── llm.py                 # Gemini LLM wrapper
+│   ├── llm.py                 # Groq LLM wrapper
 │   ├── prompt.py              # Hallucination-prevention prompt
 │   └── rag_pipeline.py        # Main Q&A pipeline
 ├── scripts/
@@ -38,7 +38,7 @@ rag-document-qa/
 ## 5. Technology Choices
 - **Language**: Python (Industry standard for AI/ML).
 - **Framework**: LangChain (Provides excellent wrappers for chunking and prompt templating without being overly restrictive).
-- **LLM**: Google Gemini (`Gemini 2.5 Flash`) via `langchain-google-genai`. Chosen for its generous free tier, speed, and high reasoning capabilities.
+- **LLM**: Groq (`openai/gpt-oss-20b`) via `langchain-groq`. I used Groq for answer generation because it provides fast inference and integrates directly with LangChain. Retrieval remains local using Sentence Transformers and FAISS, so the LLM provider can be changed without rebuilding the retrieval pipeline.
 - **Embeddings**: `sentence-transformers/all-MiniLM-L6-v2`. Chosen because it is small, fast, completely free, and runs entirely locally on CPU while maintaining high accuracy for English text.
 - **Vector Database**: FAISS (Facebook AI Similarity Search). Chosen because it runs purely in-memory and saves to local disk, requiring no complex Docker setups or third-party cloud accounts.
 - **UI**: Streamlit. Allows for rapid prototyping of a clean, interactive web application using pure Python.
@@ -64,7 +64,7 @@ Hallucinations are prevented in two ways:
 2. Create a virtual environment: `python -m venv venv`
 3. Activate the environment (Windows: `venv\Scripts\activate`, Mac/Linux: `source venv/bin/activate`).
 4. Install dependencies: `pip install -r requirements.txt`
-5. Rename `.env.example` to `.env` and insert your `GEMINI_API_KEY`.
+5. Rename `.env.example` to `.env` and insert your `GROQ_API_KEY` and `GROQ_MODEL`.
 6. Place your PDFs inside `data/pdfs/`.
 
 ## 11. How to run
@@ -80,7 +80,7 @@ streamlit run app.py
 ```
 
 ## 12. Limitations & Future Improvements
-- **Tables and Images**: Standard text extraction struggles with complex tables and ignores images. Future improvements could involve OCR or multimodal models (like sending the raw PDF image to Gemini Vision).
+- **Tables and Images**: Standard text extraction struggles with complex tables and ignores images. Future improvements could involve OCR or multimodal models (like sending the raw PDF image to a multimodal model).
 - **Scalability**: FAISS is in-memory. If we scale to millions of documents, we would need to migrate to a dedicated vector database like Pinecone, Milvus, or pgvector.
 - **Evaluation**: We currently rely on manual testing. A future improvement would be implementing RAGAS or TruLens for automated retrieval and generation evaluation.
 

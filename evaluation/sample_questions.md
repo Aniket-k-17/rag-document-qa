@@ -65,7 +65,7 @@ This document contains sample questions to test the RAG system's capabilities, i
 
 ### 9. Out-of-Scope Fact
 **Question**: What is the capital of Japan?
-**Expected Behavior**: The system must reject the question because the Atman documents do not state this, even though the Gemini model inherently knows the answer.
+**Expected Behavior**: The system must reject the question because the Atman documents do not state this, even though the Groq model inherently knows the answer.
 **Actual Answer**: "I couldn't find enough relevant information in the provided documents to answer this question."
 **Sources**: None (Filtered by similarity threshold).
 
