@@ -16,23 +16,43 @@ The system follows a standard offline-ingestion and online-retrieval RAG pipelin
 ## 4. Project Structure
 ```text
 rag-document-qa/
-├── app.py                     # Streamlit frontend
-├── requirements.txt           # Python dependencies
-├── .env                       # API keys (not checked into git)
-├── data/pdfs/                 # Raw PDF files
-├── src/                       # Core application logic
-│   ├── config.py              # Centralized configuration
-│   ├── pdf_loader.py          # PyMuPDF ingestion
-│   ├── chunker.py             # LangChain text splitting
-│   ├── embeddings.py          # HuggingFace local embeddings
-│   ├── vector_store.py        # FAISS database logic
-│   ├── retriever.py           # Semantic search logic
-│   ├── llm.py                 # Groq LLM wrapper
-│   ├── prompt.py              # Hallucination-prevention prompt
-│   └── rag_pipeline.py        # Main Q&A pipeline
+│
+├── app.py                     # Streamlit application
+├── README.md
+├── requirements.txt
+├── .env.example               # Environment variable template
+├── .gitignore
+│
+├── data/
+│   └── pdfs/                  # Assignment PDF documents
+│
+├── evaluation/
+│   └── sample_questions.md    # Sample Q&A evaluation results
+│
 ├── scripts/
-│   └── build_index.py         # Script to ingest all PDFs to FAISS
-└── vectorstore/               # Persisted FAISS database
+│   └── build_index.py         # Build the FAISS index
+│
+├── src/
+│   ├── __init__.py
+│   ├── config.py              # Configuration
+│   ├── pdf_loader.py          # PDF extraction
+│   ├── chunker.py             # Text chunking
+│   ├── embeddings.py          # Local embeddings
+│   ├── vector_store.py        # FAISS vector store
+│   ├── retriever.py           # Semantic retrieval
+│   ├── llm.py                 # Groq LLM integration
+│   ├── prompt.py              # Grounded RAG prompt
+│   └── rag_pipeline.py        # Main RAG pipeline
+│
+├── tests/
+│   ├── test_pdf_loader.py
+│   ├── test_chunker.py
+│   ├── test_embeddings.py
+│   ├── test_retriever.py
+│   ├── test_llm.py
+│   └── test_pipeline.py
+│
+└── vectorstore/               # Generated locally, ignored by Git
 ```
 
 ## 5. Technology Choices
